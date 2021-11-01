@@ -136,7 +136,10 @@
             fetch('/api/speech', {
                 method: 'post',
                 body: text,
-            }).then(response => response.blob()
+            }).then(response => {
+                console.log('fetch response');
+                return response.blob();
+            }
             ).then(result => {
                 console.log(result)
                 audioBlock.src = URL.createObjectURL(result);
@@ -145,7 +148,6 @@
                 document.querySelector('a').setAttribute('href', URL.createObjectURL(result))
             }).catch((e) => {
                 console.log(e);
-                console.log('-----')
                 errorBlock.innerText = 'Заполните, пожалуйста, поле корректно';
             });
         } else {

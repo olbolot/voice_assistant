@@ -13,6 +13,7 @@ async function fetchIAMToken() {
 const getTimeDifferenceInMinutes = (time1, time2) => ((time1 - time2) / 1000/60);
 
 const createTokenFetcher = () => {
+    console.log('createTokenFetcher');
     let TTL;
     let token;
 

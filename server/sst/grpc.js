@@ -35,6 +35,7 @@ class GrpcService {
     }
 
     createGRPCStream = () => {
+        console.log('GrpcService class');
         const serviceMetadata = new grpc.Metadata();
         serviceMetadata.add('authorization', `Bearer ${this.token}`);
         const serviceConstructor = this.packageObject.speechkit.tts.v3.Synthesizer;
