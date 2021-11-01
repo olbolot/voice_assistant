@@ -7,10 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-    <title>Voice</title>
+    <title>Voice assistant</title>
     <style>
         * {
             box-sizing: border-box;
+            font-family: Nunito Sans, serif;
         }
 
         body {
@@ -45,7 +46,6 @@
         }
 
         h3 {
-            font-family: Nunito Sans,serif;
             font-style: normal;
             font-weight: bold;
             font-size: 24px;
@@ -58,7 +58,7 @@
 
         textarea {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: Nunito Sans,serif;
             font-style: normal;
             font-weight: 500;
@@ -67,34 +67,53 @@
             height: 200px;
         }
 
-        button {
-            background: transparent;
-            width: 100px;
+        button, a {
             height: 50px;
             font-size: medium;
-            border-radius: 4px;
-            margin-bottom: 50px;
-
+            margin-bottom: 20px;
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             padding: 20px 24px;
-
-            background: linear-gradient(180deg, rgba(252, 252, 252, 0.7225) 0%, rgba(252, 252, 252, 0.85) 100%);
-            border: 0.5px solid #FFFFFF;
-            box-sizing: border-box;
-            /* UI Glass Card */
-
-            box-shadow: 0 8px 16px rgba(1, 0, 66, 0.06);
-            backdrop-filter: blur(8px);
-            /* Note: backdrop-filter has minimal browser support */
-
             border-radius: 8px;
+            width: 100%;
+            background-color: #e35885;
+            text-decoration: none;
+            border: none;
+            color: #fff;
         }
 
         audio {
             display: none;
+        }
+
+        .note {
+            color: #fff;
+            font-size: 12px;
+            position: relative;
+            top: -10px;
+            padding-left: 10px;
+        }
+
+        #error {
+            display: none;
+            position: absolute;
+            z-index: 2;
+            background-color: #fff;
+            color: red;
+            left: 50px;
+            padding: 5px 15px;
+            font-size: 13px;
+        }
+
+        #error::after {
+            content: '';
+            position: absolute;
+            left: 0.5px;
+            top: -15.5px;
+            border: 8px solid transparent;
+            border-bottom: 8px solid white;
         }
     </style>
 </head>
@@ -102,13 +121,13 @@
     <section>
         <h3>Введите, пожалуйста, ваш текст:</h3>
         <form action="">
-            <textarea id='text' name="" label="" cols="30" rows="10" maxlength="200"></textarea>
-            <p>* максимальное количество – 200 символов</p>
-            <button id="send">Отправить</button>
+            <textarea id='text' name="" cols="30" rows="10" maxlength="200"></textarea>
+            <div id="error"></div>
+            <p class="note">* максимальное количество – 200 символов</p>
+            <button id="send">Послушать</button>
         </form>
-        <div id="error"></div>
         <audio id="audio" controls></audio>
-        <a href="" download="audio.wav">ff</a>
+        <a href="" download="audio.wav">Скачать аудиофайл с фразой</a>
     </section>
 </body>
 <script>
@@ -122,7 +141,7 @@
         e.preventDefault();
         let text = document.getElementById('text').value;
         if (text.length > 0) {
-            errorBlock.innerText = '';
+            errorBlock.style.display = "none";
             fetch('/api/speech', {
                 method: 'post',
                 body: text,
@@ -140,6 +159,7 @@
             });
         } else {
             errorBlock.innerText = 'Заполните, пожалуйста, поле текстом';
+            errorBlock.style.display = "block";
         }
     });
 
