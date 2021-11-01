@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <title>Voice</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #C2C3CE;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        section {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            padding: 20px 40px;
+            border-radius: 15px;
+            background: linear-gradient(180deg, #3B89FD 0%, #003CD8 100%);
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+
+        section::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+        }
+
+        h3 {
+            font-family: Nunito Sans,serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 24px;
+            line-height: 25px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        textarea {
+            width: 100%;
+            border-radius: 10px;
+            font-family: Nunito Sans,serif;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 10px;
+            height: 200px;
+        }
+
+        button {
+            background: transparent;
+            width: 100px;
+            height: 50px;
+            font-size: medium;
+            border-radius: 4px;
+            margin-bottom: 50px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 24px;
+
+            background: linear-gradient(180deg, rgba(252, 252, 252, 0.7225) 0%, rgba(252, 252, 252, 0.85) 100%);
+            border: 0.5px solid #FFFFFF;
+            box-sizing: border-box;
+            /* UI Glass Card */
+
+            box-shadow: 0 8px 16px rgba(1, 0, 66, 0.06);
+            backdrop-filter: blur(8px);
+            /* Note: backdrop-filter has minimal browser support */
+
+            border-radius: 8px;
+        }
+
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h3>Введите, пожалуйста, ваш текст:</h3>
+        <form action="">
+            <textarea id='text' name="" label="" cols="30" rows="10" maxlength="200"></textarea>
+            <p>* максимальное количество – 200 символов</p>
+            <button id="send">Отправить</button>
+        </form>
+        <div id="error"></div>
+        <audio id="audio" controls></audio>
+        <a href="" download="audio.wav">ff</a>
+    </section>
+</body>
+<script>
+    let recorder;
+
+    let audioBlock = document.getElementById('audio');
+    let sendBtn = document.getElementById('send');
+    let errorBlock = document.getElementById('error');
+
+    sendBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let text = document.getElementById('text').value;
+        if (text.length > 0) {
+            errorBlock.innerText = '';
+            fetch('/api/speech', {
+                method: 'post',
+                body: text,
+            }).then(response => response.blob()
+            ).then(result => {
+                console.log(result)
+                audioBlock.src = URL.createObjectURL(result);
+                audioBlock.play();
+                console.log(audioBlock)
+                document.querySelector('a').setAttribute('href', URL.createObjectURL(result))
+            }).catch((e) => {
+                console.log(e);
+                console.log('-----')
+                errorBlock.innerText = 'Заполните, пожалуйста, поле корректно';
+            });
+        } else {
+            errorBlock.innerText = 'Заполните, пожалуйста, поле текстом';
+        }
+    });
+
+</script>
+</html>
