@@ -7,8 +7,19 @@
 ###### Если у вас не установлен git, то [установите его](https://git-scm.com/downloads)
 А затем: 
  
-      cd voice_assistant
+    cd voice_assistant
+Далее:
 
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash; 
+
+Затем:
+    
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+И:
+    
+    nvm install 15.3.0
 
 #### Установите зависимости
     npm i
