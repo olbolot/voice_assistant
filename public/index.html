@@ -29,8 +29,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 500px;
-            height: 500px;
-            padding: 20px 40px;
+            padding: 20px 40px 30px;
             border-radius: 15px;
             background: linear-gradient(180deg, #3B89FD 0%, #003CD8 100%);
             filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -118,7 +117,6 @@
             <button id="send">Послушать</button>
         </form>
         <audio id="audio" controls></audio>
-        <a href="" download="audio.wav">Скачать аудиофайл с фразой</a>
     </section>
 </body>
 <script>
@@ -140,7 +138,6 @@
             .then(result => {
                 audioBlock.src = URL.createObjectURL(result);
                 audioBlock.play();
-                document.querySelector('a').setAttribute('href', URL.createObjectURL(result))
             }).catch((e) => {
                 console.log(e);
                 errorBlock.innerText = 'Заполните, пожалуйста, поле корректно';
