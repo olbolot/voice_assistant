@@ -5,7 +5,6 @@ const Grpc = require('./grpc');
 let grpc = null;
 
 async function textToSpeech(text) {
-    console.log('textToSpeech');
     const iamToken = await fetchIamToken();
 
     grpc = new Grpc({

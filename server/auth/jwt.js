@@ -6,7 +6,6 @@ const privateKey = fs.readFileSync(require.resolve('../keys/private.pem'));
 
 async function createJWT() {
     const now = Math.floor((new Date().getTime()) / 1000);
-    console.log('createJWT');
     const payload = {
         iss: ISS,
         aud: 'https://iam.api.cloud.yandex.net/iam/v1/tokens',

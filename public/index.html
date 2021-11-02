@@ -136,15 +136,10 @@
             fetch('/api/speech', {
                 method: 'post',
                 body: text,
-            }).then(response => {
-                console.log('fetch response');
-                return response.blob();
-            }
-            ).then(result => {
-                console.log(result)
+            }).then(response => response.blob())
+            .then(result => {
                 audioBlock.src = URL.createObjectURL(result);
                 audioBlock.play();
-                console.log(audioBlock)
                 document.querySelector('a').setAttribute('href', URL.createObjectURL(result))
             }).catch((e) => {
                 console.log(e);

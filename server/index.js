@@ -31,10 +31,7 @@ async function init() {
     server.route({
         method: 'POST',
         path: '/api/speech',
-        handler: (request) => {
-            console.log('request');
-            return textToSpeech(request.payload);
-        },
+        handler: (request) => textToSpeech(request.payload),
         options: {
             payload: {
                 allow: 'text/plain',
